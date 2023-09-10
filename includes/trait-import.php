@@ -154,15 +154,17 @@ trait WPB_Menu_Import {
     		return array_merge( $basic_properties, $this->get_advanced_menu_properties( $menu_item ) );
     	}
 
-    	private function get_menu_data_by_aau_ahcm( $menu_item, $defaults ) {
-        		$url              = $menu_item['url'];
-        		$basic_properties = array(
-        			'menu-item-url'   => 'http' === substr( $url, 0, 4 ) ? esc_url( $url ) : home_url( $url ),
-        			'menu-item-title' => $defaults['menu-item-title'] ?: $menu_item['url'],
-        		);
+    private function get_menu_data_by_aau_ahcm( $menu_item, $defaults ) {
+            $basic_properties = array(
+                'menu-item-type'      => 'aau_ahcm',
+                'menu-item-title' => $defaults['menu-item-title'] ?: $menu_item['url'],
+                'menu-item-description' => $menu_item['description'],
+                'menu-item-classes'     => implode( ' ', $menu_item['classes'] ),
+                'menu-item-xfn'         => $menu_item['xfn'],
+            );
 
-        		return array_merge( $basic_properties, $this->get_advanced_menu_properties( $menu_item ) );
-        	}
+            return array_merge( $basic_properties, $this->get_advanced_menu_properties( $menu_item ) );
+        }
 
 
 	/**
