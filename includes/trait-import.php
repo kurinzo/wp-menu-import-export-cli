@@ -54,7 +54,7 @@ trait WPB_Menu_Import {
 				'menu-item-title'  => isset( $menu_item['title'] ) ? $menu_item['title'] : false,
 				'menu-item-status' => 'publish',
 			);
-			$menu_data_raw       = '';
+			$menu_data_raw       = $this->$get_method( $menu_item, $menu_data_defaults );
 
 			if ( empty( $menu_data_raw ) ) {
 				WP_CLI::log( 'The submenu item "' . $menu_item['title'] . '" does not have any data.' );
@@ -145,14 +145,25 @@ trait WPB_Menu_Import {
 	 * @return array                The menu data.
 	 */
 	private function get_menu_data_by_custom( $menu_item, $defaults ) {
-		$url              = $menu_item['url'];
-		$basic_properties = array(
-			'menu-item-url'   => 'http' === substr( $url, 0, 4 ) ? esc_url( $url ) : home_url( $url ),
-			'menu-item-title' => $defaults['menu-item-title'] ?: $menu_item['url'],
-		);
+    		$url              = $menu_item['url'];
+    		$basic_properties = array(
+    			'menu-item-url'   => 'http' === substr( $url, 0, 4 ) ? esc_url( $url ) : home_url( $url ),
+    			'menu-item-title' => $defaults['menu-item-title'] ?: $menu_item['url'],
+    		);
 
-		return array_merge( $basic_properties, $this->get_advanced_menu_properties( $menu_item ) );
-	}
+    		return array_merge( $basic_properties, $this->get_advanced_menu_properties( $menu_item ) );
+    	}
+
+    	private function get_menu_data_by_aau_ahcm( $menu_item, $defaults ) {
+        		$url              = $menu_item['url'];
+        		$basic_properties = array(
+        			'menu-item-url'   => 'http' === substr( $url, 0, 4 ) ? esc_url( $url ) : home_url( $url ),
+        			'menu-item-title' => $defaults['menu-item-title'] ?: $menu_item['url'],
+        		);
+
+        		return array_merge( $basic_properties, $this->get_advanced_menu_properties( $menu_item ) );
+        	}
+
 
 	/**
 	 * Get menu data by taxonomy.
